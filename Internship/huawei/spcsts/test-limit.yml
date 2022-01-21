@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: test-pv
+spec:
+  capacity:
+    storage: 100Mi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+  local:
+    path: /opt/tmp2
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - kwephisprm05370
+
+---
+
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: test-claim
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Mi
+  storageClassName: local-storage
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: asd 
+spec:
+  containers:
+  - command: ["/bin/bash","-c"]
+    args: ["while true;do sleep 10;done;"]
+    image: euleros:x86-V200R007C00SPC522B030
+    imagePullPolicy: Never
+    name: asd
+    ports:
+    - containerPort: 80
+      protocol: TCP
+    volumeMounts:
+      - mountPath: /var/www
+        name: data 
+  volumes:
+  - name: data
+    persistentVolumeClaim:
+      claimName: test-claim
