@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: gauss-example
+spec:
+  selector:
+    matchLabels:
+      app: gauss
+  serviceName: "gauss-svc"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: gauss
+    spec:
+      hostNetwork: true
+      terminationGracePeriodSeconds: 10
+      containers:
+      - command: ["/bin/bash","-c"]
+        args: ["while true;do sleep 10;done;"]
+        name: gauss-example
+        image: qqq:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
+          name: default
+        volumeMounts:
+        - name: gauss-claim
+          mountPath: /opt/data1/greenopengauss/data
+
+  volumeClaimTemplates:
+  - metadata:
+      name: gauss-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "local-storage"
+      resources:
+        requests:
+          storage: 10Gi
+
