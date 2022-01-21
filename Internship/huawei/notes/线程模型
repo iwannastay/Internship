@@ -1,0 +1,41 @@
+DPL,RPL,CPL 之间的联系和区别
+
+来自 <https://blog.csdn.net/better0332/article/details/3416749> 
+
+Linux线程模型
+
+来自 <https://blog.csdn.net/fanyun_01/article/details/87914703> 
+
+
+https://www.zhihu.com/question/19732473
+同步（Synchronous）
+异步( Asynchronous)
+阻塞( Blocking )
+非阻塞( Nonblocking)
+
+总结：
+	1. 阻塞/非阻塞， 同步/异步的概念要注意讨论的上下文：
+	• 在进程通信层面， 阻塞/非阻塞， 同步/异步基本是同义词， 但是需要注意区分讨论的对象是发送方还是接收方。
+	• 发送方阻塞/非阻塞（同步/异步）和接收方的阻塞/非阻塞（同步/异步） 是互不影响的。
+	• 在 IO 系统调用层面（ IO system call ）层面， 非阻塞 IO 系统调用 和 异步 IO 系统调用存在着一定的差别， 它们都不会阻塞进程， 但是返回结果的方式和内容有所差别， 但是都属于非阻塞系统调用（ non-blocing system call ）
+2. 非阻塞系统调用（non-blocking I/O system call 与 asynchronous I/O system call） 的存在可以用来实现线程级别的 I/O 并发， 与通过多进程实现的 I/O 并发相比可以减少内存消耗以及进程切换的开销。
+
+作者：萧萧
+链接：https://www.zhihu.com/question/19732473/answer/241673170
+来源：知乎
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+
+目前的常用的IO复用模型有三种：select，poll，epoll
+
+来自 <https://blog.csdn.net/wteruiycbqqvwt/article/details/90299610> 
+
+Linux下的五种I/O模型
+
+1)阻塞I/O（blocking I/O）
+2)非阻塞I/O （nonblocking I/O）
+3) I/O复用(select 和poll) （I/O multiplexing）
+4)信号驱动I/O （signal driven I/O (SIGIO)）
+5)异步I/O （asynchronous I/O (the POSIX aio_functions)）
+
+来自 <https://blog.csdn.net/sinat_31135199/article/details/77000078> 
